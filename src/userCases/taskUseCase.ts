@@ -14,31 +14,53 @@ export default class TaskUseCase implements ITaskUseCase {
     this.taskRepository = taskRepository;
   }
 
-  async getAllTasks(userId: string) {
+  async getAllTasks(userId: string, status: string, assignee: string, date: any) {
     const userExists = await this.userRepository.checkUser(userId)
-    if (!userExists) {
+    if (!userExists) {      
       throw new CustomError(HttpStatusEnum.NOT_FOUND, "User Not Found");
     }
-    const response = await this.taskRepository.getAllTasks(userId)
+    
+    const query: any = { userId };
+    
+    if (status) {
+      query.status = status;
+    }
+    
+    if (assignee) {
+      query.assignee = assignee;
+    }
+    
+    if (date?.startDate && date?.endDate) {
+      query.dueDate = {
+        $gte: new Date(date.startDate), 
+        $lte: new Date(date.endDate),  
+      };
+    }
 
-    if(!response){
+      console.log(query);
+      
+    const response = await this.taskRepository.getAllTasks(query)
+    
+    if (!response) {
       throw new CustomError(HttpStatusEnum.BAD_REQUEST, "Failed to get all tasks");
     }
 
     return {
       status: true,
-      message: "Task created successfully",
+      message: "Succesfully get all tasks",
       data: response
     }
   }
 
   async addTask(data: ITask) {
-    if (!data._id || !data.assigne || !data.title || !data.description || !data.dueDate) {
+    if (!data.userId ||!data.status || !data.assignee || !data.title || !data.description || !data.dueDate) {
       throw new CustomError(HttpStatusEnum.BAD_REQUEST, "All fields are required")
     }
 
+    console.log(data.status);
+    
     const response = await this.taskRepository.addTask(data)
-    if(!response){
+    if (!response) {
       throw new CustomError(HttpStatusEnum.BAD_REQUEST, "Failed to create task");
     }
 
@@ -51,18 +73,18 @@ export default class TaskUseCase implements ITaskUseCase {
 
 
   async editTask(data: any) {
-    if (!data._id || !data.assigne || !data.title || !data.description || !data.dueDate) {
+    if (!data._id || !data.assignee || !data.title || !data.description || !data.dueDate) {
       throw new CustomError(HttpStatusEnum.BAD_REQUEST, "All fields are required")
     }
 
-    const response = await this.taskRepository.addTask(data)
-    if(!response){
+    const response = await this.taskRepository.editTask(data)
+    if (!response) {
       throw new CustomError(HttpStatusEnum.BAD_REQUEST, "Failed to edit task");
     }
 
     return {
       status: true,
-      message: "Task edited successfully",
+      message: "Task updated successfully",
       data: response
     }
   }
@@ -76,7 +98,7 @@ export default class TaskUseCase implements ITaskUseCase {
 
     return {
       status: true,
-      message: "Task deleted successfully",
+      message: "Task deleted Successfully",
       data: response
     }
   }

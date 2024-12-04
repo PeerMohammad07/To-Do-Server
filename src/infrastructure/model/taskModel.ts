@@ -13,10 +13,9 @@ const taskSchema = new Schema({
   status: {
     type: String,
     enum: ["Pending", "Completed"],
-    default: "Pending",
     required: true,
   },
-  assigne: {
+  assignee: {
     type: String,
     required: true,
   },

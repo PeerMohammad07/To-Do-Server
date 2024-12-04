@@ -1,6 +1,7 @@
 import { DeleteResult, Model } from "mongoose";
 import ITask from "../../infrastructure/interfaces/ITask";
 import { ITaskRepository } from "../../infrastructure/interfaces/ITaskRepository";
+import { log } from "console";
 
 export default class TaskRepository implements ITaskRepository {
   private task: Model<ITask>
@@ -9,8 +10,8 @@ export default class TaskRepository implements ITaskRepository {
     this.task = task
   }
 
-  async getAllTasks(userId: string): Promise<ITask[]> {
-    return await this.task.find({ userId })
+  async getAllTasks(query: any): Promise<ITask[]> {
+    return await this.task.find(query)
   }
 
 
@@ -19,9 +20,11 @@ export default class TaskRepository implements ITaskRepository {
     return await task.save()
   }
 
-  async editTask(data: any): Promise<ITask|null> {
+  async editTask(data: any): Promise<ITask|null> {    
+    console.log(data.status);
+    
     return await this.task.findOneAndUpdate(
-        { _id: data.id },     
+        { _id: data._id },     
         { $set: data },        
         { new: true }     
     );

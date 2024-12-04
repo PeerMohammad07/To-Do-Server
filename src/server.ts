@@ -5,6 +5,7 @@ import connectDB from "./infrastructure/config/db";
 import cors from "cors"
 import morgan from "morgan";
 import cookieParser from "cookie-parser"
+import errorMiddleware from "./infrastructure/middleware/errorMiddleware";
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use(express.json());
 connectDB()
 
 app.use("/",userRouter)
+
+app.use(errorMiddleware)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT,()=>{

@@ -15,9 +15,12 @@ export default class TaskController {
   }
 
   async getTasks(req: Request, res: Response, next: NextFunction){
-    try {
-      const { userId } = req.body;      
-      const response = await this.taskUseCase.getAllTasks(userId)
+    try {      
+      const { userId } = req.body;         
+      const { status , assigne , date } = req.query  
+      console.log(status,assigne,date);
+      
+      const response = await this.taskUseCase.getAllTasks(userId,status,assigne , date )
       res.status(HttpStatusEnum.OK).json(response)
     } catch (error) {
       next(error)
@@ -25,15 +28,16 @@ export default class TaskController {
   }
 
   async addTask(req: Request, res: Response, next: NextFunction){
-    try {
-      const { userId, title, description, dueDate, assigne } = req.body; 
+    try {       
+      const { userId, title, description,status, dueDate, assignee } = req.body; 
       const data = {
         userId,
         title,
         description,
         dueDate,
-        assigne
-      }           
+        assignee,
+        status
+      }                 
       const response = await this.taskUseCase.addTask(data as ITask)
       res.status(HttpStatusEnum.OK).json(response)
     } catch (error) {
@@ -44,15 +48,16 @@ export default class TaskController {
   async editTask(req: Request, res: Response, next: NextFunction){
     try {
       const taskId = req.params.id
-      const { userId, title, description, dueDate, assigne } = req.body;
+      const { title, description, status ,dueDate, assignee } = req.body;        
       const data = {
         _id:taskId,
-        userId,
         title,
         description,
+        status,
         dueDate,
-        assigne
-      }      
+        assignee
+      }            
+      
       const response = await this.taskUseCase.editTask(data)
       res.status(HttpStatusEnum.OK).json(response)
     } catch (error) {

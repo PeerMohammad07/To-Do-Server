@@ -9,6 +9,7 @@ import TaskUseCase from "../../userCases/taskUseCase";
 import TaskRepository from "../../adapters/repository/taskRepository";
 import Task from "../model/taskModel";
 import TaskController from "../../adapters/controllers/taskController";
+import userAuth from "../middleware/userAuth";
 
 const userRouter = express.Router();
 
@@ -25,9 +26,9 @@ userRouter.post("/auth/login",userController.login);
 userRouter.post("/auth/register",userController.register);
 userRouter.post("/auth/logout",userController.logout)
 
-userRouter.get("/tasks",taskController.getTasks)
-userRouter.post("/tasks",taskController.addTask)
-userRouter.put("/tasks/:id",taskController.editTask)
-userRouter.delete("/tasks/:id",taskController.deleteTask)
+userRouter.get("/tasks",userAuth,taskController.getTasks)
+userRouter.post("/tasks",userAuth,taskController.addTask)
+userRouter.put("/tasks/:id",userAuth,taskController.editTask)
+userRouter.delete("/tasks/:id",userAuth,taskController.deleteTask)
 
 export default userRouter

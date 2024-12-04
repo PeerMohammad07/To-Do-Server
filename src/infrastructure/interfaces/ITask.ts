@@ -5,7 +5,7 @@ interface ITask {
   title: string;
   description: string;
   status: "Pending" | "Completed"; 
-  assigne: string;
+  assignee: string;
   dueDate: Date;
   userId: Types.ObjectId; 
   createdAt?: Date; 

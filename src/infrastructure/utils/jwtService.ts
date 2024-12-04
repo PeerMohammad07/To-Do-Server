@@ -5,7 +5,7 @@ class jwtService implements IjwtService  {
   generateToken(data:any){
     let secretKey = process.env.JWT_SECRET_KEY
     if(secretKey){
-      let token = jwt.sign(data,secretKey,{ expiresIn: '15m' })
+      let token = jwt.sign(data,secretKey,{ expiresIn: '30m' })
       return token
     }
     throw new Error("Failed to get Secret Key")
