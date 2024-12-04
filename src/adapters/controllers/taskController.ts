@@ -17,9 +17,7 @@ export default class TaskController {
   async getTasks(req: Request, res: Response, next: NextFunction){
     try {      
       const { userId } = req.body;         
-      const { status , assigne , date } = req.query  
-      console.log(status,assigne,date);
-      
+      const { status , assigne , date } = req.query        
       const response = await this.taskUseCase.getAllTasks(userId,status,assigne , date )
       res.status(HttpStatusEnum.OK).json(response)
     } catch (error) {
@@ -57,7 +55,6 @@ export default class TaskController {
         dueDate,
         assignee
       }            
-      
       const response = await this.taskUseCase.editTask(data)
       res.status(HttpStatusEnum.OK).json(response)
     } catch (error) {
