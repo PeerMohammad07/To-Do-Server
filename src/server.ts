@@ -15,7 +15,7 @@ app.use(cookieParser())
 
 // Setting Cors 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://to-do-client-gold.vercel.app",
   credentials: true,
 }));
 
