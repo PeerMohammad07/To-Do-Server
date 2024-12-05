@@ -17,7 +17,7 @@ app.use((0, cookie_parser_1.default)());
 const frontendurl = process.env.FRONTEND_URL;
 // Setting Cors 
 app.use((0, cors_1.default)({
-    origin: frontendurl,
+    origin: "*",
     credentials: true,
 }));
 // Use morgan middleware to log HTTP requests

@@ -17,7 +17,7 @@ app.use(cookieParser())
 const frontendurl = process.env.FRONTEND_URL
 // Setting Cors 
 app.use(cors({
-  origin: frontendurl,
+  origin: "*",
   credentials: true,
 }));
 
