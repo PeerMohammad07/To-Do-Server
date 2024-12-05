@@ -30,7 +30,6 @@ class UserController {
             try {
                 const { name, email, password } = req.body;
                 const response = yield this.userUseCase.register({ name, email, password });
-                console.log(response);
                 this.setAuthCookies(res, response.data.token, response.data.refreshToken);
                 res.status(statusCodeEnum_1.HttpStatusEnum.OK).json({
                     status: true,

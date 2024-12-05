@@ -13,9 +13,11 @@ dotenv.config()
 
 app.use(cookieParser())
 
+
+const frontendurl = process.env.FRONTEND_URL
 // Setting Cors 
 app.use(cors({
-  origin: "https://to-do-client-gold.vercel.app",
+  origin: frontendurl,
   credentials: true,
 }));
 

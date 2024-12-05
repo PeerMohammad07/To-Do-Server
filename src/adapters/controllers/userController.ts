@@ -27,7 +27,6 @@ export default class UserController {
       const { name, email, password } = req.body;
 
       const response = await this.userUseCase.register({ name, email, password })
-      console.log(response);
       
       this.setAuthCookies(res, response.data.token, response.data.refreshToken);
 
